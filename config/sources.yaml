@@ -1,0 +1,30 @@
+rss_feeds:
+  # 🟣 OPTICS & PHOTONICS
+  - name: Optics.org – Latest News
+    url: https://optics.org/rss/news.xml
+  - name: AZoOptics – Photonics
+    url: https://www.azooptics.com/syndication.axd
+  - name: FindLight – Photonics News/Products
+    url: https://findlight.net/blog/feed
+  - name: Photonics Spotlight (RP Photonics)
+    url: https://rp-photonics.com/spotlight.rss
+  - name: Wasatch Photonics Blog
+    url: https://wasatchphotonics.com/feed
+  - name: IL Photonics Blog
+    url: https://ilphotonics.com/feed
+  - name: ACS Photonics (journal)
+    url: http://feeds.feedburner.com/acs/apchd5
+
+  # 🟢 MATERIALS SCIENCE / GLASS / CERAMICS
+  - name: AZoM – Materials & Engineering News
+    url: https://www.azom.com/syndication.axd
+  - name: Michigan Tech – Materials Science News
+    url: https://blogs.mtu.edu/materials/feed
+  - name: Journal of Materials Chemistry Blog (RSC)
+    url: https://blogs.rsc.org/jm/feed
+  - name: MSE Supplies Blog (Materials Supplies)
+    url: https://msesupplies.com/blogs/news.atom
+  - name: Chemistry of Materials (ACS)
+    url: http://pubs.acs.org/action/showFeed?ui=0&mi=qjmolc&ai=53h&jc=cmatex&type=etoc&feed=rss
+  - name: SciPost News (Physics – includes optics/photonic research)
+    url: https://scipost.org/rss/news/

@@ -1,0 +1,40 @@
+disabled_rss_feeds:
+  - name: Photonics Media (Photonics Spectra)
+    url: https://www.photonics.com/master.xml?eid=RssFeed
+    reason: 403 Forbidden
+
+  - name: Optica – Research and Industry News
+    url: https://www.optica-opn.org/home/rss/?rss=News
+    reason: 0 entries
+
+  - name: Nature Materials – Journal Feed
+    url: https://www.nature.com/nmat/web-feeds/rss
+    reason: 404 Not Found
+
+  - name: Engineering Materials News (UK)
+    url: https://materialsforengineering.co.uk/feed
+    reason: 404 Not Found
+
+  - name: Polymer Solutions Blog
+    url: https://polymersolutions.com/blog/feed
+    reason: 404 Not Found
+
+  - name: Photonics for a Better World (SPIE)
+    url: https://photonicsforabetterworld.blog/feed
+    reason: DNS resolution failed
+
+  - name: Granta Design Blog
+    url: https://blog.grantadesign.com/feed
+    reason: DNS resolution failed
+
+  - name: PowderTechnology.info News
+    url: https://powdertechnology.info/news?format=rss
+    reason: 0 entries
+
+  - name: MRS Bulletin – Springer (via rss2json workaround)
+    url: https://api.rss2json.com/v1/api.json?rss_url=https://springerlink.com/content/0883-7694/
+    reason: 500 Server Error
+
+  - name: Phys.org – Materials Section
+    url: https://phys.org/rss-feed/materials-science/
+    reason: 404 Not Found

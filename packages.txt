@@ -1,0 +1,6 @@
+# System packages installed by Streamlit Cloud before pip install.
+# Required by newspaper3k (image/XML processing) and lxml.
+libxml2-dev
+libxslt1-dev
+libjpeg-dev
+zlib1g-dev

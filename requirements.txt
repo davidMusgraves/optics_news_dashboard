@@ -1,13 +1,27 @@
+# ── Web / RSS ingestion ──────────────────────────────────────────────────────
 feedparser~=6.0.11
 newspaper3k
+readability-lxml~=0.8.1
+beautifulsoup4~=4.13.4
+lxml
+html5lib
+requests~=2.32.4
+
+# ── Data / ML ────────────────────────────────────────────────────────────────
 pandas~=2.3.1
 scikit-learn
 spacy~=3.8.7
-pyyaml~=6.0.2
-schedule~=1.2.2
-requests~=2.32.4
-sqlalchemy~=2.0.41
-spacy
-streamlit~=1.47.1
+# spaCy English model — pinned to match spaCy version above
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
 
-beautifulsoup4~=4.13.4
+# ── Database ─────────────────────────────────────────────────────────────────
+sqlalchemy~=2.0.41
+psycopg2-binary~=2.9.10   # PostgreSQL driver (Supabase / any Postgres host)
+
+# ── Scheduling / config ───────────────────────────────────────────────────────
+schedule~=1.2.2
+pyyaml~=6.0.2
+python-dotenv~=1.0.1
+
+# ── Streamlit UI ──────────────────────────────────────────────────────────────
+streamlit~=1.47.1

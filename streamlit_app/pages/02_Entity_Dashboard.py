@@ -6,7 +6,7 @@ import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-from db.article_model import get_session, ArticleEntity, Article
+from data.db.article_model import get_session, ArticleEntity, Article
 
 st.set_page_config(page_title="Optics & Photonics Entity Dashboard", layout="wide")
 st.title("Named Entity Frequency in Optics & Photonics News")

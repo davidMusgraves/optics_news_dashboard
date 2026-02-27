@@ -1,10 +1,17 @@
 # db/article_model.py
+import os
 from sqlalchemy import (
     create_engine, Column, Integer, String, Text, ForeignKey, DateTime, UniqueConstraint
 )
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from datetime import datetime
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
 
 Base = declarative_base()
 
@@ -22,7 +29,7 @@ class Article(Base):
     fetched_at = Column(DateTime, default=datetime.utcnow)
 
     entities = relationship("ArticleEntity", back_populates="article", cascade="all, delete-orphan")
-    labels = relationship("ArticleLabel", backref="article", cascade="all, delete-orphan")  # optional (article-level tags)
+    labels = relationship("ArticleLabel", backref="article", cascade="all, delete-orphan")
     span_annotations = relationship("ArticleSpanAnnotation", back_populates="article", cascade="all, delete-orphan")
 
 class ArticleEntity(Base):
@@ -48,7 +55,6 @@ class ArticleLabel(Base):
 
     __table_args__ = (UniqueConstraint('article_id', 'label', name='_article_label_uc'),)
 
-# NEW: human span annotations (character offsets in the article text)
 class ArticleSpanAnnotation(Base):
     __tablename__ = "article_span_annotations"
 
@@ -57,32 +63,58 @@ class ArticleSpanAnnotation(Base):
 
     start_char = Column(Integer, index=True)  # inclusive
     end_char = Column(Integer, index=True)    # exclusive
-    label = Column(String, index=True)        # e.g., PERSON, COMPANY, UNIVERSITY, GOV_LAB, ...
-    text = Column(String)                     # denormalized convenience copy of the span text
+    label = Column(String, index=True)
+    text = Column(String)                     # denormalized convenience copy
 
-    annotator = Column(String, default="manual")  # optional: who annotated (or "manual")
+    annotator = Column(String, default="manual")
     created_at = Column(DateTime, default=datetime.utcnow)
 
     article = relationship("Article", back_populates="span_annotations")
 
-def get_session(db_path="sqlite:///data/articles.db"):
-    engine = create_engine(db_path)
 
-    # Light auto-migration helpers for SQLite dev. In production, use alembic.
-    with engine.begin() as conn:
-        # articles columns we added earlier
-        try: conn.exec_driver_sql("ALTER TABLE articles ADD COLUMN content TEXT")
-        except Exception: pass
-        try: conn.exec_driver_sql("ALTER TABLE articles ADD COLUMN fetched_at DATETIME")
-        except Exception: pass
-        # article_entities columns (raw/custom labels)
-        try: conn.exec_driver_sql("ALTER TABLE article_entities ADD COLUMN raw_label VARCHAR")
-        except Exception: pass
-        try: conn.exec_driver_sql("ALTER TABLE article_entities ADD COLUMN custom_label VARCHAR")
-        except Exception: pass
-        # Ensure span annotation table exists
-        # (create_all will create the table if missing)
-        pass
+def _resolve_db_url():
+    """
+    Resolve the database URL with this priority:
+      1. DATABASE_URL environment variable (set by GitHub Actions, local .env, or
+         injected by the Streamlit Cloud secrets bridge in Home.py)
+      2. Legacy DB_SQLALCHEMY_URL env var (backwards compat)
+      3. Default SQLite path for local development
+    """
+    url = os.environ.get("DATABASE_URL") or os.environ.get("DB_SQLALCHEMY_URL")
+    if not url:
+        url = "sqlite:///data/articles.db"
+    # Supabase / Heroku ship postgres:// URIs; SQLAlchemy 1.4+ requires postgresql://
+    if url.startswith("postgres://"):
+        url = url.replace("postgres://", "postgresql://", 1)
+    return url
+
+
+def get_session(db_url=None):
+    if db_url is None:
+        db_url = _resolve_db_url()
+
+    is_sqlite = db_url.startswith("sqlite")
+    engine_kwargs = {}
+    if not is_sqlite:
+        # Keep connections alive across Streamlit reruns
+        engine_kwargs["pool_pre_ping"] = True
+
+    engine = create_engine(db_url, **engine_kwargs)
+
+    # SQLite-only: light schema migrations for dev convenience.
+    # On Postgres use Alembic (or run create_all on first deploy).
+    if is_sqlite:
+        with engine.begin() as conn:
+            for stmt in [
+                "ALTER TABLE articles ADD COLUMN content TEXT",
+                "ALTER TABLE articles ADD COLUMN fetched_at DATETIME",
+                "ALTER TABLE article_entities ADD COLUMN raw_label VARCHAR",
+                "ALTER TABLE article_entities ADD COLUMN custom_label VARCHAR",
+            ]:
+                try:
+                    conn.exec_driver_sql(stmt)
+                except Exception:
+                    pass  # column already exists
 
     Base.metadata.create_all(engine)
     Session = sessionmaker(bind=engine)

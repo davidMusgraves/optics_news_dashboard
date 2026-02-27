@@ -9,7 +9,7 @@ sys.path.insert(0, str(ROOT))
 
 import re
 import streamlit as st
-from db.article_model import get_session, Article, ArticleSpanAnnotation
+from data.db.article_model import get_session, Article, ArticleSpanAnnotation
 from sqlalchemy.orm import joinedload
 from sqlalchemy import desc
 from html import escape
@@ -135,7 +135,7 @@ with col1:
             s.add(ann)
             s.commit()
             st.success(f"Added span [{start}, {end}) → {label}")
-            st.experimental_rerun()
+            st.rerun()
 
 with col2:
     with st.expander("✍️ Or annotate by manual character offsets"):
@@ -157,7 +157,7 @@ with col2:
                 s.add(ann)
                 s.commit()
                 st.success(f"Added span [{start_char}, {end_char}) → {label}")
-                st.experimental_rerun()
+                st.rerun()
 
 st.divider()
 st.markdown("### 🗂️ Existing annotations")
@@ -169,6 +169,6 @@ if existing:
             s.delete(ann)
             s.commit()
             st.success(f"Deleted annotation {ann.id}")
-            st.experimental_rerun()
+            st.rerun()
 else:
     st.info("No span annotations yet for this article.")

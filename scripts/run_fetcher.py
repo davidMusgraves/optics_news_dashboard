@@ -16,7 +16,7 @@ from readability import Document
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 
-from db.article_model import get_session, Article
+from data.db.article_model import get_session, Article
 
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (compatible; OpticsNewsDigester/1.0; +https://example.com/bot)"

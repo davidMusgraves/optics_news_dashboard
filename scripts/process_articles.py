@@ -2,7 +2,7 @@
 import sys, os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from db.article_model import get_session, Article, ArticleEntity
+from data.db.article_model import get_session, Article, ArticleEntity
 from digester.categorizer import categorize_article
 from digester.entity_extractor import extract_entities
 

@@ -1,9 +1,33 @@
+# Python
 .venv/
+venv/
 __pycache__/
 *.pyc
+*.pyo
+*.egg-info/
+
+# macOS
+.DS_Store
+__MACOSX/
+
+# Environment / secrets — never commit these
 .env
+.streamlit/secrets.toml
+
+# Database files (live data lives in Supabase, not in the repo)
+data/*.db
+data/*.sqlite
+data/db/*.db
+
+# Runtime outputs
+logs/*.log
 data/raw/*
 data/processed/*
-data/db/*.db
-logs/*.log
-.DS_Store
+data/exports/*
+data/label_corrections.csv
+
+# Keep empty directory stubs so git tracks the folders
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/exports/.gitkeep
+!logs/.gitkeep

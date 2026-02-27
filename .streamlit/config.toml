@@ -1,0 +1,12 @@
+[server]
+# Allow connections from outside localhost (required for cloud hosting)
+address = "0.0.0.0"
+port = 8501
+headless = true
+
+[browser]
+# Prevents Streamlit from trying to open a browser tab on the server
+gatherUsageStats = false
+
+[theme]
+base = "light"

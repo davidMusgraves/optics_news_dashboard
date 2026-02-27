@@ -12,7 +12,7 @@ import pandas as pd
 import streamlit as st
 from sqlalchemy.orm import joinedload
 
-from db.article_model import get_session, ArticleEntity, Article
+from data.db.article_model import get_session, ArticleEntity, Article
 
 CUSTOM_TYPES = [
     "PERSON", "COMPANY", "UNIVERSITY", "RESEARCH_GROUP", "GOV_LAB",
